@@ -4,7 +4,7 @@
 #
 Name     : pypi-packaging
 Version  : 21.3
-Release  : 62
+Release  : 63
 URL      : https://files.pythonhosted.org/packages/df/9e/d1a7217f69310c1db8fdf8ab396229f55a699ce34a203691794c5d1cad0c/packaging-21.3.tar.gz
 Source0  : https://files.pythonhosted.org/packages/df/9e/d1a7217f69310c1db8fdf8ab396229f55a699ce34a203691794c5d1cad0c/packaging-21.3.tar.gz
 Summary  : Core utilities for Python packages
@@ -56,13 +56,16 @@ python3 components for the pypi-packaging package.
 %prep
 %setup -q -n packaging-21.3
 cd %{_builddir}/packaging-21.3
+pushd ..
+cp -a packaging-21.3 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1651102114
+export SOURCE_DATE_EPOCH=1653349703
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
@@ -71,6 +74,16 @@ export CXXFLAGS="$CXXFLAGS -fno-lto "
 export MAKEFLAGS=%{?_smp_mflags}
 pypi-dep-fix.py . pyparsing
 python3 -m build --wheel --skip-dependency-check --no-isolation
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3 "
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3 "
+pypi-dep-fix.py . pyparsing
+python3 -m build --wheel --skip-dependency-check --no-isolation
+
+popd
 
 %install
 export MAKEFLAGS=%{?_smp_mflags}
@@ -83,6 +96,15 @@ pypi-dep-fix.py %{buildroot} pyparsing
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
 echo ----[ mark ]----
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3 "
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3 "
+pip install --root=%{buildroot}-v3 --no-deps --ignore-installed dist/*.whl
+popd
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
