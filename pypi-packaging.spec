@@ -4,7 +4,7 @@
 #
 Name     : pypi-packaging
 Version  : 21.3
-Release  : 68
+Release  : 69
 URL      : https://files.pythonhosted.org/packages/df/9e/d1a7217f69310c1db8fdf8ab396229f55a699ce34a203691794c5d1cad0c/packaging-21.3.tar.gz
 Source0  : https://files.pythonhosted.org/packages/df/9e/d1a7217f69310c1db8fdf8ab396229f55a699ce34a203691794c5d1cad0c/packaging-21.3.tar.gz
 Summary  : Core utilities for Python packages
