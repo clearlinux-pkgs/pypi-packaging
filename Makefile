@@ -1,5 +1,5 @@
 PKG_NAME := pypi-packaging
-URL = https://files.pythonhosted.org/packages/ee/b5/b43a27ac7472e1818c4bafd44430e69605baefe1f34440593e0332ec8b4d/packaging-24.0.tar.gz
+URL = https://files.pythonhosted.org/packages/51/65/50db4dda066951078f0a96cf12f4b9ada6e4b811516bf0262c0f4f7064d4/packaging-24.1.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common
