@@ -7,7 +7,7 @@
 #
 Name     : pypi-packaging
 Version  : 24.2
-Release  : 86
+Release  : 87
 URL      : https://files.pythonhosted.org/packages/d0/63/68dbb6eb2de9cb10ee4c9c14a0148804425e13c4fb20d61cce69f53106da/packaging-24.2.tar.gz
 Source0  : https://files.pythonhosted.org/packages/d0/63/68dbb6eb2de9cb10ee4c9c14a0148804425e13c4fb20d61cce69f53106da/packaging-24.2.tar.gz
 Summary  : Core utilities for Python packages
